@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAP 연계 FTA 원산지 판정 시뮬레이터</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .presentation-container {
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            padding: 60px 80px;
+            min-height: 600px;
+            animation: fadeIn 0.5s;
+        }
+        
+        .slide.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide.lead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+        
+        .slide.lead h1 {
+            color: white;
+        }
+        
+        h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+        
+        .slide.lead h2 {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #718096;
+        }
+        
+        .slide.lead h3 {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+        
+        ul {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+        
+        strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        code {
+            background: #f7fafc;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #e53e3e;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: #f7fafc;
+            border-top: 2px solid #e2e8f0;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .slide-counter {
+            font-size: 1em;
+            color: #718096;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="slide lead active" data-slide="0">
+<h1>SAP 연계 FTA 원산지 판정 시뮬레이터</h1>
+<h2>포트폴리오 프로젝트</h2>
+
+<h3>현대오토에버 SAP ERP 직무 지원</h3>        </div>
+        <div class="slide " data-slide="1">
+<h1>1. 프로젝트 선정 배경 및 전략</h1>
+
+<ul>
+  <li><strong>Target 역량</strong>: SAP ABAP 개발, SD 모듈 지식, 수출/FTA 프로세스 경험</li>
+  <li><strong>현대자동차그룹의 특징</strong>:</li>
+  <li style="margin-left: 20px;">글로벌 법인 운영으로 <strong>수출 및 통관(FTA) 이슈</strong>가 핵심</li>
+  <li style="margin-left: 20px;">우대사항: <strong>"SAP 수출패키지 운영, 원산지(FTA) 프로세스 업무 경험"</strong></li>
+  <li><strong>기획 의도</strong>:</li>
+  <li style="margin-left: 20px;">단순 문법 공부를 넘어, 현업(SD)에서 가장 필요한 <strong>수출/FTA 프로세스</strong>를 직접 모델링</li>
+  <li style="margin-left: 20px;"><strong>주문(SO) ➡ 출하(Delivery) ➡ 대금청구(Billing)</strong> 흐름과 <strong>원산지 판정</strong>의 연계성을 구현하여 도메인 이해도 증명</li>
+</ul>        </div>
+        <div class="slide " data-slide="2">
+<h1>2. 프로젝트 개요 및 목적</h1>
+
+<ul>
+  <li><strong>개요</strong>: 실제 제조 기업의 <strong>FTA 원산지 판정 프로세스</strong>를 MVP로 구현</li>
+  <li><strong>목표</strong>:</li>
+  <li style="margin-left: 20px;">SAP 데이터 구조(Master Data) 및 비즈니스 로직 역량 증명</li>
+  <li style="margin-left: 20px;">제조업 핵심 프로세스(BOM, FTA CTSH) 도메인 지식 입증</li>
+  <li><strong>타겟</strong>: SAP 직무 채용 담당자 및 실무 면접관</li>
+</ul>        </div>
+        <div class="slide " data-slide="3">
+<h1>3. 비즈니스 시나리오 (Use Case)</h1>
+
+<ul>
+  <li><strong>대상 품목</strong>: 전기차 배터리 팩 (EV Battery Pack)</li>
+  <li><strong>핵심 이슈</strong>:</li>
+  <li style="margin-left: 20px;">🇨🇳 중국산 <strong>리튬 셀 (HS 8507.90)</strong></li>
+  <li style="margin-left: 20px;">🇰🇷 한국산 <strong>배터리 모듈 (HS 8507.90)</strong> 로 제조</li>
+  <li style="margin-left: 20px;">최종 <strong>배터리 팩 (HS 8507.60)</strong> 의 원산지가 <strong>한국(KR)</strong> 로 인정될 수 있는가?</li>
+  <li><strong>판정 기준</strong>: <strong>CTSH</strong> (Change of Tariff Sub-Heading, 4단위 세번변경기준)</li>
+</ul>        </div>
+        <div class="slide " data-slide="4">
+<h1>4. 시스템 아키텍처 및 DB 설계</h1>
+
+<ul>
+  <li><strong>ERP 모사 데이터베이스 (SQLite)</strong>:</li>
+  <li style="margin-left: 20px;"><strong>ZMM_MATERIAL</strong>: 자재 마스터 (자재유형, HS Code, 원산지)</li>
+  <li style="margin-left: 20px;"><strong>ZPP_BOM</strong>: BOM 마스터 (부모-자식 관계, 소요량)</li>
+  <li style="margin-left: 20px;"><strong>ZSD_FTA_HIST</strong>: 판정 이력 및 결과 로그</li>
+  <li><strong>비즈니스 로직</strong>:</li>
+  <li style="margin-left: 20px;">BOM 전개 (Explosion) -> 최하위 자재 탐색</li>
+  <li style="margin-left: 20px;">HS Code 비교 -> 세번 변경 여부 자동 판정</li>
+</ul>        </div>
+        <div class="slide " data-slide="5">
+<h1>5. 구현 기능 (Features)</h1>
+
+<p>1. <strong>마스터 데이터 관리</strong>: 자재 및 BOM 구조의 계층적 데이터 표현</p>
+<p>2. <strong>원산지 시뮬레이션</strong>:</p>
+<ul>
+  <li>완제품 선택 시 CTSH 알고리즘 즉시 실행</li>
+  <li>역외산 자재 식별 및 판정 근거 제시</li>
+</ul>
+<p>3. <strong>이력 추적</strong>: 모든 시뮬레이션 결과의 DB 저장 및 조회</p>
+<p>4. <strong>Interactive Dashboard</strong>: Streamlit 기반의 직관적인 2-Column UI</p>        </div>
+        <div class="slide " data-slide="6">
+<h1>6. 기술 스택 (Tech Stack)</h1>
+
+<ul>
+  <li><strong>Core</strong>: Python 3.13+</li>
+  <li><strong>Database</strong>: SQLite (Embedded DB)</li>
+  <li><strong>UI Framework</strong>: Streamlit</li>
+  <li><strong>Data Analysis</strong>: Pandas</li>
+</ul>        </div>
+        <div class="slide " data-slide="7">
+<h1>7. 향후 개선 계획</h1>
+
+<ul>
+  <li><strong>로직 고도화</strong>: RVC (부가가치기준) 판정 알고리즘 추가</li>
+  <li><strong>시각화 강화</strong>: Graphviz 등을 활용한 BOM Tree 구조 시각화</li>
+  <li><strong>시스템 연동</strong>: SAP RFC (Remote Function Call) 연동 테스트</li>
+</ul>        </div>
+        <div class="slide lead " data-slide="8">
+
+
+<h1>감사합니다</h1>
+<h2>Q & A</h2>        </div>
+        <div class="controls">
+            <button class="btn" id="prevBtn" onclick="changeSlide(-1)">← 이전</button>
+            <span class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides"></span>
+            </span>
+            <button class="btn" id="nextBtn" onclick="changeSlide(1)">다음 →</button>
+        </div>
+    </div>
+    
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('totalSlides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+        
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+        
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
